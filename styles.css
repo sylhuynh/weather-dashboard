@@ -1,1 +1,24 @@
-/*CSS*/
+/* Header */
+.display-4 {
+    text-align: center;
+    color: white;
+    line-height: 0.2;
+    font-weight: 400;
+}
+
+.jumbotron {
+    background-color: black;
+    height: 20px;
+    margin-bottom: 1rem;
+}
+
+/* Side section */
+.side-section {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+p {
+    font-weight: bold;
+    font-size: large;
+}
