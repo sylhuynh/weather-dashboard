@@ -1,30 +1,32 @@
 var apiKey = "84a64c01cc6ad7d818bbc8727e5ba52f";
 
-// when user clicks on the search button
-$("#search-btn").on("click", function(event){
-    // prevent th btn from trying to submit the form
-    event.preventDefault();
-    // get the value of the input field and assign to variable
-    var searchTerm = $("#search-bar").val().trim();
-    //add searchTerm to the queryUrl 
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchTerm + "&appid=" + apiKey;
+// create function that searches for current weather 
+function searchCurrentWeather(city){
     
+//add searchTerm to the queryUrl 
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+
 // use ajax call to retrieve data from weather API with users input
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function(response) {
+    //printing the entire object to the console
     console.log(response);
     
+    // constructing HTML containing current weather information
+    // create response var for temperature, humidity, wind speed, UV index, date, icon
+        var cityName = $("<h2>").text(response.name + " " + moment().format('L'));
+        var currentWeatherIcon = $("h2").text(response.weather.icon);
+        var currentTemp = $("<p>").text("Temperature: " + response.main.temp + " °F");
+        var currentHumidity = $("<p>").text("Humidity: " + response.main.humidity + " %");
+        var currentWindSpeed = $("<p>").text("Wind Speed: " + response.wind.speed + " MPH");
+
+    //empty the contents of the card body, append new weather content to display on page
+    $(".card-body").empty();
+    $(".card-body").append(cityName, currentWeatherIcon, currentTemp, currentHumidity, currentWindSpeed);
 });
-
-
-
-
-});
-
-   // create var for the response if need be (ex. response.data/ response.docs)
-    // create response var for currenttemperature, currenthumidity, wind speed, UV index, currentDate, currentweathercasticon
+}   
 
     //create 1 bootstrap card that loops through the 5 day forecast (bands activity 11 & activity 13 unit 6)
         // create a container
@@ -38,6 +40,19 @@ $.ajax({
         // document.addeventListener("click", INSERT CITY NAME, INSERT FUNCTION NAME)
         // need to get from local storage
 
+
+
+// when user clicks on the search button
+$("#search-btn").on("click", function(event){
+    // prevent th btn from trying to submit the form
+    event.preventDefault();
+    // get the value of the input field and assign to variable
+    var searchTerm = $("#search-bar").val().trim();
+
+    // call upon searchCurrentWeather function while passing the searchTerm through as an argument
+    searchCurrentWeather(searchTerm);
+
+});
 
 // GIVEN a weather dashboard with form inputs
 
