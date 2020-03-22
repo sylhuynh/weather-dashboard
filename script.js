@@ -1,10 +1,29 @@
-// when user clicks on the search button
-    // prevent the btn from trying to submit the form
-    // get the value of the input field and assign to variable
-    // add searchTerm to the queryUrl 
+var apiKey = "84a64c01cc6ad7d818bbc8727e5ba52f";
 
+// when user clicks on the search button
+$("#search-btn").on("click", function(event){
+    // prevent th btn from trying to submit the form
+    event.preventDefault();
+    // get the value of the input field and assign to variable
+    var searchTerm = $("#search-bar").val().trim();
+    //add searchTerm to the queryUrl 
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchTerm + "&appid=" + apiKey;
+    
 // use ajax call to retrieve data from weather API with users input
-    // create var for the response if need be (ex. response.data/ response.docs)
+$.ajax({
+    url: queryURL,
+    method: "GET"
+}).then(function(response) {
+    console.log(response);
+    
+});
+
+
+
+
+});
+
+   // create var for the response if need be (ex. response.data/ response.docs)
     // create response var for currenttemperature, currenthumidity, wind speed, UV index, currentDate, currentweathercasticon
 
     //create 1 bootstrap card that loops through the 5 day forecast (bands activity 11 & activity 13 unit 6)
