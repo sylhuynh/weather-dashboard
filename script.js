@@ -53,44 +53,42 @@ function searchWeather(city) {
                 //printing entire object to console
                 console.log(result);
                 //create 1 bootstrap card that loops through the 5 day forecast (bands activity 11 & activity 13 unit 6)
-                //    for (var i = 0; i < ) {
+                var num = 1;
 
-                // create div with card class and class that changes background color to blue
-                var newDivCard = $("<div>").attr("class", "card");
-                var newCardBody = $("<div>");
-                newCardBody.attr("class", "card-body");
-                newCardBody.attr("id", "5-day-forecast");
-                
-                // create h2 with date and append to the div
-                var fiveDay = $("<h2>");
-                fiveDay.attr("class", "five-day");
-                fiveDay.text(moment().add(1, 'day').calendar("MM, DD, YYYY"));
-                
-                //retrieve icon data
-                var fiveWeatherIcon = result.list[37].weather[0].icon;
-                // add to new img element and attach to icon url
-                var newFiveImageIcon = $("<img>");
-                newFiveImageIcon.attr("src", "https://openweathermap.org/img/wn/" + fiveWeatherIcon + "@2x.png");
-        
-                var fiveTemp = $("<p>").text("Temperature: " + (((result.list[37].main.temp - 273.15) * (9 / 5) + 32).toFixed(2)) + " °F");
-                var fiveHumidity = $("<p>").text("Humidity: " + result.list[37].main.humidity + " %");
-                
-                //empty the contents of the new card body
-                newCardBody.empty();
-                newCardBody.append(fiveDay, fiveTemp, fiveHumidity);
+                for (var i = 0; i < 5; i++) {
+                    // create div with card class and class that changes background color to blue
+                    var newDivCard = $("<div>").attr("class", "card");
+                    var newCardBody = $("<div>");
+                    newCardBody.attr("class", "card-body");
+                    newCardBody.attr("id", "5-day-forecast");
 
-                console.log(newCardBody);
-                // append icon to date 
-                fiveDay.append(newFiveImageIcon);
+                    // create h2 with date and append to the div
+                    var fiveDay = $("<h2>");
+                    fiveDay.attr("class", "five-day");
+                    fiveDay.text(moment().add(num++, 'day').calendar("MM, DD, YYYY"));
 
-                //append card body to div
-                newDivCard.append(newCardBody);
-                //append new weather content to display on page
-                $(".forecast-container").append(newDivCard);
-                
+                    //retrieve icon data
+                    var fiveWeatherIcon = result.list[i].weather[0].icon;
+                    // add to new img element and attach to icon url
+                    var newFiveImageIcon = $("<img>");
+                    newFiveImageIcon.attr("src", "https://openweathermap.org/img/wn/" + fiveWeatherIcon + "@2x.png");
 
+                    var fiveTemp = $("<p>").text("Temperature: " + (((result.list[i].main.temp - 273.15) * (9 / 5) + 32).toFixed(2)) + " °F");
+                    var fiveHumidity = $("<p>").text("Humidity: " + result.list[i].main.humidity + " %");
 
-                //    };
+                    //empty the contents of the new card body
+                    newCardBody.empty();
+                    newCardBody.append(fiveDay, fiveTemp, fiveHumidity);
+
+                    // append icon to date 
+                    fiveDay.append(newFiveImageIcon);
+
+                    //append card body to div
+                    newDivCard.append(newCardBody);
+
+                    //append new weather content to display on page
+                    $(".forecast-container").append(newDivCard);
+                };
 
             });
 
