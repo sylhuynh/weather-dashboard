@@ -1,7 +1,8 @@
 var apiKey = "84a64c01cc6ad7d818bbc8727e5ba52f";
 
+
 // create function that searches for current weather 
-function searchCurrentWeather(city) {
+function searchWeather(city) {
 
     //add searchTerm to the queryUrl 
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
@@ -29,9 +30,9 @@ function searchCurrentWeather(city) {
             var currentWeatherIcon = response.weather[0].icon;
             // add to new img element and attach to icon url
             var newImageIcon = $("<img>");
-                newImageIcon.attr("src", "https://openweathermap.org/img/wn/" + currentWeatherIcon + "@2x.png");
+            newImageIcon.attr("src", "https://openweathermap.org/img/wn/" + currentWeatherIcon + "@2x.png");
 
-            var currentTemp = $("<p>").text("Temperature: " + response.main.temp + " °F");
+            var currentTemp = $("<p>").text("Temperature: " + (((response.main.temp - 273.15) * (9 / 5) + 32).toFixed(2)) + " °F");
             var currentHumidity = $("<p>").text("Humidity: " + response.main.humidity + " %");
             var currentWindSpeed = $("<p>").text("Wind Speed: " + response.wind.speed + " MPH");
             var currentUVIndex = $("<p>").text("UV Index: " + UVIndex.value);
@@ -41,16 +42,62 @@ function searchCurrentWeather(city) {
             $(".card-body").append(cityName, currentTemp, currentHumidity, currentWindSpeed, currentUVIndex);
             // append icon to city name and date 
             $("h2").append(newImageIcon);
+
+            // 5 day weather forecast
+            var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+            $.ajax({
+                url: fiveDayURL,
+                method: "GET"
+            }).then(function (result) {
+
+                //printing entire object to console
+                console.log(result);
+                //create 1 bootstrap card that loops through the 5 day forecast (bands activity 11 & activity 13 unit 6)
+                //    for (var i = 0; i < ) {
+
+                // create div with card class and class that changes background color to blue
+                var newDivCard = $("<div>").attr("class", "card");
+                var newCardBody = $("<div>");
+                newCardBody.attr("class", "card-body");
+                newCardBody.attr("id", "5-day-forecast");
+                
+                // create h2 with date and append to the div
+                var fiveDay = $("<h2>");
+                fiveDay.attr("class", "five-day");
+                fiveDay.text(moment().format('L'));
+                
+                //retrieve icon data
+                var fiveWeatherIcon = result.list[37].weather[0].icon;
+                // add to new img element and attach to icon url
+                var newFiveImageIcon = $("<img>");
+                newFiveImageIcon.attr("src", "https://openweathermap.org/img/wn/" + fiveWeatherIcon + "@2x.png");
+        
+                var fiveTemp = $("<p>").text("Temperature: " + (((result.list[37].main.temp - 273.15) * (9 / 5) + 32).toFixed(2)) + " °F");
+                var fiveHumidity = $("<p>").text("Humidity: " + result.list[37].main.humidity + " %");
+                
+                //empty the contents of the new card body
+                newCardBody.empty();
+                newCardBody.append(fiveDay, fiveTemp, fiveHumidity);
+
+                console.log(newCardBody);
+                // append icon to date 
+                fiveDay.append(newFiveImageIcon);
+
+                //append card body to div
+                newDivCard.append(newCardBody);
+                //append new weather content to display on page
+                $(".forecast-container").append(newDivCard);
+                
+
+
+                //    };
+
+            });
+
         });
     });
 }
 
-//create 1 bootstrap card that loops through the 5 day forecast (bands activity 11 & activity 13 unit 6)
-// create a container
-// create div with card class and class that changes background color to blue
-// create h1 with date and append to the div
-// create h2 with temp and append to the div
-// create h3 with humidity and append to the div
 
 // search history list
 // jQuery listen to document activity
@@ -61,13 +108,13 @@ function searchCurrentWeather(city) {
 
 // when user clicks on the search button
 $("#search-btn").on("click", function (event) {
-    // prevent th btn from trying to submit the form
+    // prevent the btn from trying to submit the form
     event.preventDefault();
     // get the value of the input field and assign to variable
     var searchTerm = $("#search-bar").val().trim();
 
     // call upon searchCurrentWeather function while passing the searchTerm through as an argument
-    searchCurrentWeather(searchTerm);
+    searchWeather(searchTerm);
 
 });
 
