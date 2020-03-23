@@ -64,7 +64,7 @@ function searchWeather(city) {
                 // create h2 with date and append to the div
                 var fiveDay = $("<h2>");
                 fiveDay.attr("class", "five-day");
-                fiveDay.text(moment().format('L'));
+                fiveDay.text(moment().add(1, 'day').calendar("MM, DD, YYYY"));
                 
                 //retrieve icon data
                 var fiveWeatherIcon = result.list[37].weather[0].icon;
