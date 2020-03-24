@@ -96,39 +96,52 @@ function searchWeather(city) {
     });
 }
 
-
 // search history list
-// jQuery listen to document activity
-// document.addeventListener("click", INSERT CITY NAME, INSERT FUNCTION NAME)
-// need to get from local storage
+var searchHistory = JSON.parse(localStorage.getItem("search-history"));
+
+// if there is nothing in searchHistory, make it an empty array
+if (searchHistory === null) {
+    searchHistory = [];
+}
+
+renderSearchHistory();
+
+function renderSearchHistory() {
+    $("#search-history").empty();
+    for (var i = 0; i < searchHistory.length; i++) {
+        // create a new btn for each item in search history (array)
+        var newBtn = $("<button type='button' class='btn btn-outline-secondary'>").text(searchHistory[i]);
+        // append new btn to search history container (html)
+        $("#search-history").append(newBtn);
+    }
+}
 
 
-
-// when user clicks on the search button
+// // when user clicks on the search button
 $("#search-btn").on("click", function (event) {
     // prevent the btn from trying to submit the form
     event.preventDefault();
+
     // get the value of the input field and assign to variable
     var searchTerm = $("#search-bar").val().trim();
 
+    searchHistory.unshift(searchTerm);
+
+    while (searchHistory.length > 10) {
+        searchHistory.pop();
+    }
+
+    localStorage.setItem("search-history", JSON.stringify(searchHistory));
+    
+    renderSearchHistory();
+    
     // call upon searchCurrentWeather function while passing the searchTerm through as an argument
     searchWeather(searchTerm);
 
 });
 
-// GIVEN a weather dashboard with form inputs
-
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-
 // WHEN I view the UV index
 // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
 
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
