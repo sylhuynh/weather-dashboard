@@ -16,7 +16,7 @@ function searchWeather(city) {
         console.log(response);
 
         // use ajax call to retrieve uv index data
-        var indexUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + response.coord.lat + "&lon=" + response.coord.lon;
+        var indexUVURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + response.coord.lat + "&lon=" + response.coord.lon;
         $.ajax({
             url: indexUVURL,
             method: "GET"
