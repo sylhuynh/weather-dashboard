@@ -49,7 +49,7 @@ function searchWeather(city) {
                 url: fiveDayURL,
                 method: "GET"
             }).then(function (result) {
-
+                $(".forecast-container").empty();
                 //printing entire object to console
                 console.log(result);
                 //create 1 bootstrap card that loops through the 5 day forecast (bands activity 11 & activity 13 unit 6)
@@ -58,12 +58,14 @@ function searchWeather(city) {
                 for (var i = 0; i < 5; i++) {
                     // create div with card class and class that changes background color to blue
                     var newDivCard = $("<div>").attr("class", "card");
+                    newDivCard.attr("id", "forecast-card");
+
                     var newCardBody = $("<div>");
                     newCardBody.attr("class", "card-body");
-                    newCardBody.attr("id", "5-day-forecast");
+                    newCardBody.addClass("forecast");
 
-                    // create h2 with date and append to the div
-                    var fiveDay = $("<h2>");
+                    // create h4 with date and append to the div
+                    var fiveDay = $("<h4>");
                     fiveDay.attr("class", "five-day");
                     fiveDay.text(moment().add(num++, 'day').calendar("MM, DD, YYYY"));
 
@@ -72,8 +74,9 @@ function searchWeather(city) {
                     // add to new img element and attach to icon url
                     var newFiveImageIcon = $("<img>");
                     newFiveImageIcon.attr("src", "https://openweathermap.org/img/wn/" + fiveWeatherIcon + "@2x.png");
+                    newFiveImageIcon.addClass("forecast-icon");
 
-                    var fiveTemp = $("<p>").text("Temperature: " + (((result.list[i].main.temp - 273.15) * (9 / 5) + 32).toFixed(2)) + " °F");
+                    var fiveTemp = $("<p>").text("Temp: " + (((result.list[i].main.temp - 273.15) * (9 / 5) + 32).toFixed(2)) + " °F");
                     var fiveHumidity = $("<p>").text("Humidity: " + result.list[i].main.humidity + " %");
 
                     //empty the contents of the new card body
@@ -96,7 +99,9 @@ function searchWeather(city) {
     });
 }
 
-// search history list
+// Search History List
+// WHEN I open the weather dashboard
+// THEN I am presented with the last searched city forecast
 var searchHistory = JSON.parse(localStorage.getItem("search-history"));
 
 // if there is nothing in searchHistory, make it an empty array
@@ -111,13 +116,15 @@ function renderSearchHistory() {
     for (var i = 0; i < searchHistory.length; i++) {
         // create a new btn for each item in search history (array)
         var newBtn = $("<button type='button' class='btn btn-outline-secondary'>").text(searchHistory[i]);
+        newBtn.addClass("history-btn");
+
         // append new btn to search history container (html)
         $("#search-history").append(newBtn);
     }
 }
 
 
-// // when user clicks on the search button
+// when user clicks on the search button
 $("#search-btn").on("click", function (event) {
     // prevent the btn from trying to submit the form
     event.preventDefault();
@@ -140,11 +147,10 @@ $("#search-btn").on("click", function (event) {
 
 });
 
+
 // WHEN I view the UV index
 // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
 
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
-// WHEN I open the weather dashboard
-// THEN I am presented with the last searched city forecast

@@ -18,12 +18,47 @@
     margin-right: 20px;
 }
 
+.search-wrapper {
+    margin-bottom: 10px;
+}
+
 p {
     font-weight: bold;
     font-size: large;
 }
 
+.history-btn {
+    width: 100%;
+}
+
 /* Current Weather section */
 .card {
     margin-right: 20px;
+}
+
+/* 5 - day Forecast */
+
+#forecast-card {
+    width: 170px;
+    height: 200px;
+    float: right;
+}
+
+.forecast {
+    background-color: rgb(39, 130, 248);
+    color: white;
+}
+
+.forecast p {
+    font-size: 19px;
+    font-weight: 200;
+}
+
+h4 {
+    font-size: 21px;
+}
+
+.forecast-icon {
+    width: 50px;
+    height: 50px;
 }
