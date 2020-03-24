@@ -111,8 +111,7 @@ if (searchHistory === null) {
 
 renderSearchHistory();
 
-function renderSearchHistory() {
-    $("#search-history").empty();
+function renderSearchHistory() {    
     for (var i = 0; i < searchHistory.length; i++) {
         // create a new btn for each item in search history (array)
         var newBtn = $("<button type='button' class='btn btn-outline-secondary'>").text(searchHistory[i]);
